@@ -197,14 +197,8 @@ export default class Categories extends React.Component {
       cropping: true
     }).then(image => {
       console.log(image);
-      let img = {
-        uri: image.path,
-        width: image.width,
-        height: image.height,
-        mime: image.mime,
-      },
 
-      this.setImage(id,img);
+      this.setImage(id,image.path);
     });
   }
 
