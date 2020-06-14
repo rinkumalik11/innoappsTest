@@ -25,7 +25,8 @@ export default class Categories extends React.Component {
       detail:
         'Wheat free, made with jackfruit & mixed berry smoothie topped with fresh fruit.',
       liked: false,
-      quantity:0
+      quantity:0,
+      image:''
     },
     {
       id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
@@ -35,7 +36,8 @@ export default class Categories extends React.Component {
       detail:
         'Wheat free, made with jackfruit & mixed berry smoothie topped with fresh fruit.',
       liked: false,
-      quantity:0
+      quantity:0,
+      image:''
     },
     {
       id: '58694a0f-3da1-471f-bd96-145571e29d72',
@@ -45,7 +47,8 @@ export default class Categories extends React.Component {
       detail:
         'Wheat free, made with jackfruit & mixed berry smoothie topped with fresh fruit.',
       liked: false,
-      quantity:0
+      quantity:0,
+      image:''
     },
     {
       id: '1',
@@ -55,7 +58,8 @@ export default class Categories extends React.Component {
       detail:
         'Wheat free, made with jackfruit & mixed berry smoothie topped with fresh fruit.',
       liked: false,
-      quantity:0
+      quantity:0,
+      image:''
     },
     {
       id: '2',
@@ -65,7 +69,8 @@ export default class Categories extends React.Component {
       detail:
         'Wheat free, made with jackfruit & mixed berry smoothie topped with fresh fruit.',
       liked: false,
-      quantity:0
+      quantity:0,
+      image:''
     },
     {
       id: '3',
@@ -75,7 +80,8 @@ export default class Categories extends React.Component {
       detail:
         'Wheat free, made with jackfruit & mixed berry smoothie topped with fresh fruit.',
       liked: false,
-      quantity:0
+      quantity:0,
+      image:''
     },
   ],
   modalVisible:false,
@@ -164,13 +170,41 @@ export default class Categories extends React.Component {
     });
   };
 
-  selectImage=()=>{
+  setImage = (id,image) => {
+    this.setState(prevState => {
+      let {data} = prevState;
+      data = data.map(item => {
+        if(item.id === id){
+          return {
+            ...item,
+            image
+          }
+        }
+        return {...item};
+      });
+
+      return {
+        ...prevState,
+        data
+      };
+    });
+  };
+
+  selectImage=(id)=>{
     ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true
     }).then(image => {
       console.log(image);
+      let img = {
+        uri: image.path,
+        width: image.width,
+        height: image.height,
+        mime: image.mime,
+      },
+
+      this.setImage(id,img);
     });
   }
 
@@ -321,8 +355,8 @@ export default class Categories extends React.Component {
           {
             this.state.addPicture ? (
               <View style={{flexDirection:"row"}}>
-                {this.state.imageUri !== '' ? <Image style={{width:50,height:50,borderRadius:8}} source={{uri:this.state.imageUri}}/> : null}
-                <TouchableOpacity style={{marginLeft:10}} onPress={()=>this.selectImage()}>
+                {this.state.modalData.image !== '' ? <Image style={{width:50,height:50,borderRadius:8}} source={{uri:this.state.modalData.image}}/> : null}
+                <TouchableOpacity style={{marginLeft:10}} onPress={()=>this.selectImage(this.state.modalData.id)}>
                   <Text>Upload Other Picture</Text>
                 </TouchableOpacity>
               </View>
