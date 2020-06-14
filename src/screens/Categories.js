@@ -192,12 +192,11 @@ export default class Categories extends React.Component {
 
   selectImage=(id)=>{
     ImagePicker.openPicker({
-      width: 300,
-      height: 400,
+      width: 50,
+      height: 50,
       cropping: true
     }).then(image => {
       console.log(image);
-
       this.setImage(id,image.path);
     });
   }
@@ -349,7 +348,7 @@ export default class Categories extends React.Component {
           {
             this.state.addPicture ? (
               <View style={{flexDirection:"row"}}>
-                {this.state.modalData.image !== '' ? <Image style={{width:50,height:50,borderRadius:8}} source={{uri:this.state.modalData.image}}/> : null}
+                {this.state.modalData.image !== '' ? <Image style={{width:50,height:50,borderRadius:8}} resizeMode='contain' source={{uri:this.state.modalData.image}}/> : null}
                 <TouchableOpacity style={{marginLeft:10}} onPress={()=>this.selectImage(this.state.modalData.id)}>
                   <Text>Upload Other Picture</Text>
                 </TouchableOpacity>
